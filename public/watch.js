@@ -12,6 +12,8 @@
   const authorSection = document.getElementById('authorSection');
   const authorName = document.getElementById('authorName');
   const subBtn = document.getElementById('subBtn');
+  const likeBtn = document.getElementById('likeBtn');
+  const likeCount = document.getElementById('likeCount');
   const commentInput = document.getElementById('commentInput');
   const commentSubmit = document.getElementById('commentSubmit');
   const commentsList = document.getElementById('commentsList');
@@ -26,20 +28,21 @@
 
   let videoData = null;
   let isSubscribed = false;
+  let isLiked = false;
 
-  menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', function() {
     sidebar.classList.toggle('closed');
     content.classList.toggle('expanded');
   });
 
-  searchForm.addEventListener('submit', (e) => {
+  searchForm.addEventListener('submit', function(e) {
     e.preventDefault();
     window.location.href = '/?search=' + encodeURIComponent(searchInput.value.trim());
   });
 
   function fmtDur(s) {
     if (!s) return '--:--';
-    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
     if (h > 0) return h + ':' + String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
     return m + ':' + String(sec).padStart(2,'0');
   }
@@ -52,8 +55,8 @@
   }
 
   function fmtDate(d) {
-    const date = new Date(d), now = new Date();
-    const diff = Math.floor((now - date) / 86400000);
+    var date = new Date(d), now = new Date();
+    var diff = Math.floor((now - date) / 86400000);
     if (diff === 0) return 'сегодня';
     if (diff === 1) return 'вчера';
     if (diff < 7) return diff + ' дней назад';
@@ -92,10 +95,12 @@
       if (videoData.authorId) {
         authorSection.style.display = 'flex';
         authorName.textContent = videoData.authorName || 'Автор';
+        authorName.href = '/profile.html?id=' + videoData.authorId;
         setupSubscription();
       }
 
       setupDeleteButton();
+      loadLikes();
     } catch (e) {
       titleEl.textContent = 'Видео не найдено';
     }
@@ -131,6 +136,28 @@
       }
       subBtn.textContent = isSubscribed ? '✓ Подписан' : 'Подписаться';
       subBtn.classList.toggle('subscribed', isSubscribed);
+    } catch(e) {}
+  }
+
+  async function loadLikes() {
+    try {
+      var r = await fetch('/api/videos/' + videoId + '/likes', { headers: authHeaders() });
+      var d = await r.json();
+      isLiked = d.liked;
+      likeCount.textContent = d.count;
+      likeBtn.classList.toggle('liked', isLiked);
+      likeBtn.onclick = toggleLike;
+    } catch(e) {}
+  }
+
+  async function toggleLike() {
+    if (!currentUser) { showAuthModal(); return; }
+    try {
+      var r = await fetch('/api/videos/' + videoId + '/like', { method: 'POST', headers: authHeaders() });
+      var d = await r.json();
+      isLiked = d.liked;
+      likeCount.textContent = d.count;
+      likeBtn.classList.toggle('liked', isLiked);
     } catch(e) {}
   }
 

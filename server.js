@@ -32,6 +32,10 @@ function writeUsers(u) { writeJSON(USERS_FILE, u); }
 function readComments() { return readJSON(COMMENTS_FILE); }
 function writeComments(c) { writeJSON(COMMENTS_FILE, c); }
 
+const LIKES_FILE = path.join(DATA_DIR, 'likes.json');
+function readLikes() { return readJSON(LIKES_FILE); }
+function writeLikes(l) { writeJSON(LIKES_FILE, l); }
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOADS_DIR),
   filename: (req, file, cb) => {
@@ -315,6 +319,73 @@ app.delete('/api/comments/:id', authMiddleware, (req, res) => {
   comments.splice(idx, 1);
   writeComments(comments);
   res.json({ success: true });
+});
+
+// ─── Likes ─────────────────────────────────────────────
+app.post('/api/videos/:id/like', authMiddleware, (req, res) => {
+  let likes = readLikes();
+  const existing = likes.findIndex(l => l.videoId === req.params.id && l.userId === req.user.id);
+  if (existing >= 0) {
+    likes.splice(existing, 1);
+    writeLikes(likes);
+    return res.json({ liked: false, count: likes.filter(l => l.videoId === req.params.id).length });
+  }
+  likes.push({ videoId: req.params.id, userId: req.user.id, createdAt: new Date().toISOString() });
+  writeLikes(likes);
+  res.json({ liked: true, count: likes.filter(l => l.videoId === req.params.id).length });
+});
+
+app.get('/api/videos/:id/likes', optionalAuth, (req, res) => {
+  const likes = readLikes().filter(l => l.videoId === req.params.id);
+  let liked = false;
+  if (req.user) liked = !!readLikes().find(l => l.videoId === req.params.id && l.userId === req.user.id);
+  res.json({ count: likes.length, liked });
+});
+
+// ─── User Profile & Mytubers ──────────────────────────
+app.get('/api/users/:id/profile', (req, res) => {
+  const users = readUsers();
+  const user = users.find(u => u.id === req.params.id);
+  if (!user) return res.status(404).json({ error: 'User not found' });
+
+  const videos = readVideos().filter(v => v.authorId === req.params.id);
+  const subs = readJSON(SUBS_FILE);
+  const subscriberCount = subs.filter(s => s.authorId === req.params.id).length;
+  const totalViews = videos.reduce((s, v) => s + (v.views || 0), 0);
+
+  res.json({
+    id: user.id,
+    username: user.username,
+    createdAt: user.createdAt,
+    videoCount: videos.length,
+    subscriberCount,
+    totalViews
+  });
+});
+
+app.get('/api/mytubers', (req, res) => {
+  const videos = readVideos();
+  const users = readUsers();
+  const subs = readJSON(SUBS_FILE);
+
+  const authorIds = [...new Set(videos.filter(v => v.authorId).map(v => v.authorId))];
+  const mytubers = authorIds.map(id => {
+    const user = users.find(u => u.id === id);
+    if (!user) return null;
+    const authorVids = videos.filter(v => v.authorId === id);
+    return {
+      id: user.id,
+      username: user.username,
+      createdAt: user.createdAt,
+      videoCount: authorVids.length,
+      subscriberCount: subs.filter(s => s.authorId === id).length,
+      totalViews: authorVids.reduce((s, v) => s + (v.views || 0), 0),
+      lastVideo: authorVids.sort((a, b) => new Date(b.uploaded) - new Date(a.uploaded))[0]?.uploaded
+    };
+  }).filter(Boolean);
+
+  mytubers.sort((a, b) => b.subscriberCount - a.subscriberCount);
+  res.json(mytubers);
 });
 
 // ─── Subscriptions ────────────────────────────────────

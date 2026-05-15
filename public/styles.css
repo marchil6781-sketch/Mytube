@@ -900,6 +900,122 @@ body {
   margin-bottom: 2px;
 }
 
+/* Like button */
+.like-btn {
+  background: #272727;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.like-btn:hover { background: #3f3f3f; }
+.like-btn.liked { background: #3ea6ff; color: #000; }
+
+/* Profile page */
+.profile-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: #1a1a1a;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #3ea6ff;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.profile-stats {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.profile-actions { margin-top: 8px; }
+.profile-sub-btn { padding: 10px 24px; font-size: 14px; }
+
+.profile-videos h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+/* Mytubers grid */
+.mytubers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.mytuber-card {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mytuber-card:hover { background: #272727; }
+
+.mytuber-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #3ea6ff;
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.mytuber-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.mytuber-stats {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 2px;
+}
+
+.mytuber-views {
+  font-size: 12px;
+  color: #666;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {

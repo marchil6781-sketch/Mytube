@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyTube</title>
+  <title>Mytuber's - MyTube</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -41,59 +41,15 @@
     <aside class="sidebar" id="sidebar">
       <nav class="sidebar-nav">
         <a href="/" class="nav-item">🏠 Главная</a>
+        <a href="/mytubers.html" class="nav-item active">👥 Mytuber's</a>
         <a href="/upload.html" class="nav-item">📤 Загрузить</a>
       </nav>
     </aside>
 
     <section class="content">
-      <div class="watch-container">
-        <div class="watch-main">
-          <div class="video-player-wrapper" id="playerWrapper">
-            <video class="video-player" id="videoPlayer" controls playsinline></video>
-            <div class="ad-overlay" id="adOverlay">
-              <div class="ad-content">
-                <div class="ad-title">💥 РЕКЛАМА</div>
-                <div class="ad-text">Это видео спонсировано. Реклама показывается 1 раз.</div>
-                <div class="ad-timer" id="adTimer">5</div>
-                <button class="ad-skip-btn" id="adSkipBtn">Пропустить рекламу →</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="video-info-section">
-            <h1 class="video-title-main" id="videoTitle">Загрузка...</h1>
-            <div class="video-actions">
-              <span class="video-stats" id="videoStats">0 просмотров</span>
-              <button class="like-btn" id="likeBtn">👍 <span id="likeCount">0</span></button>
-              <div class="author-section" id="authorSection" style="display:none">
-                <a class="author-name" id="authorName" href="#"></a>
-                <button class="sub-btn" id="subBtn">Подписаться</button>
-              </div>
-              <a class="download-btn" id="downloadBtn" style="display:none">⬇ Скачать</a>
-              <button class="delete-btn" id="deleteBtn" style="display:none">🗑 Удалить</button>
-            </div>
-            <div class="video-tags" id="videoTags"></div>
-            <div class="video-description" id="videoDescription"></div>
-          </div>
-
-          <div class="comments-section">
-            <h3 class="comments-title" id="commentsTitle">Комментарии</h3>
-            <div class="comment-form" id="commentFormContainer">
-              <textarea class="comment-input" id="commentInput" placeholder="Оставьте комментарий..." rows="3"></textarea>
-              <button class="comment-submit" id="commentSubmit">Отправить</button>
-            </div>
-            <div class="comments-list" id="commentsList">
-              <div class="loading">Загрузка комментариев...</div>
-            </div>
-          </div>
-        </div>
-
-        <aside class="watch-sidebar">
-          <h3 class="sidebar-title">Рекомендации</h3>
-          <div class="recommendations-list" id="recommendationsList">
-            <div class="loading">Загрузка...</div>
-          </div>
-        </aside>
+      <h1 style="font-size:24px;margin-bottom:24px">👥 Mytuber's — создатели контента</h1>
+      <div class="mytubers-grid" id="mytubersGrid">
+        <div class="loading">Загрузка...</div>
       </div>
     </section>
   </main>
@@ -106,13 +62,11 @@
         <button class="modal-tab" id="registerTab">Регистрация</button>
       </div>
       <div class="auth-error" id="authError"></div>
-
       <form class="auth-form" id="loginForm">
         <input type="text" class="auth-input" id="loginLogin" placeholder="Имя пользователя или Email">
         <input type="password" class="auth-input" id="loginPassword" placeholder="Пароль">
         <button type="button" class="auth-submit" id="loginSubmit">Войти</button>
       </form>
-
       <form class="auth-form" id="registerForm" style="display:none">
         <input type="text" class="auth-input" id="regUsername" placeholder="Имя пользователя">
         <input type="email" class="auth-input" id="regEmail" placeholder="Email">
@@ -123,6 +77,6 @@
   </div>
 
   <script src="/auth.js"></script>
-  <script src="/watch.js"></script>
+  <script src="/mytubers.js"></script>
 </body>
 </html>
