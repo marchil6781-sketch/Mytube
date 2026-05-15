@@ -49,10 +49,7 @@ const VIDEO_MIMES = {
   '.divx': 'video/x-msvideo', '.f4v': 'video/mp4'
 };
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 1000 * 1024 * 1024 }
-});
+const upload = multer({ storage });
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '50mb' }));
