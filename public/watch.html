@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyTube</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <a href="/" class="logo">
+        <svg viewBox="0 0 100 30" width="100" height="30">
+          <rect x="5" y="5" width="90" height="20" rx="4" fill="#ff0000"/>
+          <text x="50" y="20" text-anchor="middle" fill="white" font-weight="bold" font-size="12" font-family="Arial">MyTube</text>
+        </svg>
+      </a>
+    </div>
+    <div class="header-center">
+      <form class="search-form" id="searchForm">
+        <input type="text" class="search-input" id="searchInput" placeholder="Поиск...">
+        <button type="submit" class="search-btn">🔍</button>
+      </form>
+    </div>
+    <div class="header-right">
+      <div class="auth-buttons" id="authButtons">
+        <button class="auth-btn" id="loginBtn">Войти</button>
+        <button class="auth-btn auth-btn-primary" id="registerBtn">Регистрация</button>
+      </div>
+      <div class="user-info" id="userInfo" style="display:none">
+        <span class="user-avatar" id="userAvatar"></span>
+        <span class="user-name" id="userName"></span>
+        <button class="auth-btn" id="logoutBtn">Выйти</button>
+      </div>
+      <a href="/upload.html" class="upload-btn">+ Загрузить</a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <aside class="sidebar" id="sidebar">
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item">🏠 Главная</a>
+        <a href="/upload.html" class="nav-item">📤 Загрузить</a>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <div class="watch-container">
+        <div class="watch-main">
+          <div class="video-player-wrapper" id="playerWrapper">
+            <video class="video-player" id="videoPlayer" controls playsinline></video>
+            <div class="ad-overlay" id="adOverlay">
+              <div class="ad-content">
+                <div class="ad-title">💥 РЕКЛАМА</div>
+                <div class="ad-text">Это видео спонсировано. Реклама показывается 1 раз.</div>
+                <div class="ad-timer" id="adTimer">5</div>
+                <button class="ad-skip-btn" id="adSkipBtn">Пропустить рекламу →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-info-section">
+            <h1 class="video-title-main" id="videoTitle">Загрузка...</h1>
+            <div class="video-actions">
+              <span class="video-stats" id="videoStats">0 просмотров</span>
+              <div class="author-section" id="authorSection" style="display:none">
+                <span class="author-name" id="authorName"></span>
+                <button class="sub-btn" id="subBtn">Подписаться</button>
+              </div>
+              <a class="download-btn" id="downloadBtn">⬇ Скачать</a>
+            </div>
+            <div class="video-tags" id="videoTags"></div>
+            <div class="video-description" id="videoDescription"></div>
+          </div>
+
+          <!-- Comments -->
+          <div class="comments-section">
+            <h3 class="comments-title" id="commentsTitle">Комментарии</h3>
+            <div class="comment-form" id="commentFormContainer">
+              <textarea class="comment-input" id="commentInput" placeholder="Оставьте комментарий..." rows="3"></textarea>
+              <button class="comment-submit" id="commentSubmit">Отправить</button>
+            </div>
+            <div class="comments-list" id="commentsList">
+              <div class="loading">Загрузка комментариев...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations Sidebar -->
+        <aside class="watch-sidebar">
+          <h3 class="sidebar-title">Рекомендации</h3>
+          <div class="recommendations-list" id="recommendationsList">
+            <div class="loading">Загрузка...</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auth Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="loginTab">Вход</button>
+        <button class="modal-tab" id="registerTab">Регистрация</button>
+      </div>
+      <div class="auth-error" id="authError"></div>
+
+      <form class="auth-form" id="loginForm">
+        <input type="text" class="auth-input" id="loginLogin" placeholder="Имя пользователя или Email">
+        <input type="password" class="auth-input" id="loginPassword" placeholder="Пароль">
+        <button type="button" class="auth-submit" id="loginSubmit">Войти</button>
+      </form>
+
+      <form class="auth-form" id="registerForm" style="display:none">
+        <input type="text" class="auth-input" id="regUsername" placeholder="Имя пользователя">
+        <input type="email" class="auth-input" id="regEmail" placeholder="Email">
+        <input type="password" class="auth-input" id="regPassword" placeholder="Пароль (мин. 4 символа)">
+        <button type="button" class="auth-submit" id="registerSubmit">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script src="/watch.js"></script>
+</body>
+</html>

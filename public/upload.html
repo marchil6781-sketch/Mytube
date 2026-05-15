@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Загрузить видео - MyTube</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <a href="/" class="logo">
+        <svg viewBox="0 0 100 30" width="100" height="30">
+          <rect x="5" y="5" width="90" height="20" rx="4" fill="#ff0000"/>
+          <text x="50" y="20" text-anchor="middle" fill="white" font-weight="bold" font-size="12" font-family="Arial">MyTube</text>
+        </svg>
+      </a>
+    </div>
+    <div class="header-center">
+      <form class="search-form" id="searchForm">
+        <input type="text" class="search-input" id="searchInput" placeholder="Поиск...">
+        <button type="submit" class="search-btn">🔍</button>
+      </form>
+    </div>
+    <div class="header-right">
+      <div class="auth-buttons" id="authButtons">
+        <button class="auth-btn" id="loginBtn">Войти</button>
+        <button class="auth-btn auth-btn-primary" id="registerBtn">Регистрация</button>
+      </div>
+      <div class="user-info" id="userInfo" style="display:none">
+        <span class="user-avatar" id="userAvatar"></span>
+        <span class="user-name" id="userName"></span>
+        <button class="auth-btn" id="logoutBtn">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <aside class="sidebar" id="sidebar">
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item">🏠 Главная</a>
+        <a href="/upload.html" class="nav-item active">📤 Загрузить</a>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <div class="upload-page">
+        <h1>Загрузить видео</h1>
+        <form class="upload-form" id="uploadForm">
+          <div class="file-upload-area" id="fileUploadArea">
+            <div class="file-upload-icon">🎬</div>
+            <div class="file-upload-text" id="fileUploadText">Выберите видео файл или перетащите его сюда</div>
+            <div class="file-upload-name" id="fileUploadName" style="display:none"></div>
+            <input type="file" id="videoFile" accept="video/*">
+          </div>
+
+          <div class="form-group">
+            <label for="title">Название видео</label>
+            <input type="text" id="title" placeholder="Введите название видео" required>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea id="description" placeholder="Введите описание видео"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="tags">Теги (через запятую)</label>
+            <input type="text" id="tags" placeholder="например: музыка, обучение, развлечение">
+          </div>
+
+          <div class="upload-progress" id="uploadProgress">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p style="color:#aaa;font-size:13px;margin-top:6px" id="progressText">Загрузка...</p>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">Загрузить видео</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auth Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="loginTab">Вход</button>
+        <button class="modal-tab" id="registerTab">Регистрация</button>
+      </div>
+      <div class="auth-error" id="authError"></div>
+
+      <form class="auth-form" id="loginForm">
+        <input type="text" class="auth-input" id="loginLogin" placeholder="Имя пользователя или Email">
+        <input type="password" class="auth-input" id="loginPassword" placeholder="Пароль">
+        <button type="button" class="auth-submit" id="loginSubmit">Войти</button>
+      </form>
+
+      <form class="auth-form" id="registerForm" style="display:none">
+        <input type="text" class="auth-input" id="regUsername" placeholder="Имя пользователя">
+        <input type="email" class="auth-input" id="regEmail" placeholder="Email">
+        <input type="password" class="auth-input" id="regPassword" placeholder="Пароль (мин. 4 символа)">
+        <button type="button" class="auth-submit" id="registerSubmit">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script src="/upload.js"></script>
+</body>
+</html>
