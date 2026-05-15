@@ -318,6 +318,25 @@ body {
   background: #3f3f3f;
 }
 
+.delete-btn {
+  background: #272727;
+  color: #ff4444;
+  border: 1px solid #ff4444;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.delete-btn:hover {
+  background: #ff4444;
+  color: #fff;
+}
+
 .video-description {
   background: #272727;
   padding: 12px;

@@ -224,6 +224,27 @@ app.get('/api/download/:id', (req, res) => {
   res.download(filePath, video.originalname);
 });
 
+app.delete('/api/videos/:id', authMiddleware, (req, res) => {
+  let videos = readVideos();
+  const idx = videos.findIndex(v => v.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Video not found' });
+  if (videos[idx].authorId !== req.user.id)
+    return res.status(403).json({ error: 'You can only delete your own videos' });
+
+  const video = videos[idx];
+  const filePath = path.join(UPLOADS_DIR, video.filename);
+  try { if (fs.existsSync(filePath)) fs.unlinkSync(filePath); } catch {}
+
+  videos.splice(idx, 1);
+  writeVideos(videos);
+
+  let comments = readComments();
+  comments = comments.filter(c => c.videoId !== req.params.id);
+  writeComments(comments);
+
+  res.json({ success: true });
+});
+
 app.get('/video/:filename', (req, res) => {
   const filePath = path.join(UPLOADS_DIR, req.params.filename);
   if (!fs.existsSync(filePath)) return res.status(404).send('File not found');

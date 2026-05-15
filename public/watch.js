@@ -17,6 +17,7 @@
   const commentsList = document.getElementById('commentsList');
   const commentsTitle = document.getElementById('commentsTitle');
   const recList = document.getElementById('recommendationsList');
+  const deleteBtn = document.getElementById('deleteBtn');
   const searchForm = document.getElementById('searchForm');
   const searchInput = document.getElementById('searchInput');
   const menuBtn = document.getElementById('menuBtn');
@@ -93,6 +94,8 @@
         authorName.textContent = videoData.authorName || 'Автор';
         setupSubscription();
       }
+
+      setupDeleteButton();
     } catch (e) {
       titleEl.textContent = 'Видео не найдено';
     }
@@ -129,6 +132,22 @@
       subBtn.textContent = isSubscribed ? '✓ Подписан' : 'Подписаться';
       subBtn.classList.toggle('subscribed', isSubscribed);
     } catch(e) {}
+  }
+
+  function setupDeleteButton() {
+    checkAuth().then(function() {
+      if (currentUser && videoData.authorId && currentUser.id === videoData.authorId) {
+        deleteBtn.style.display = 'inline-flex';
+        deleteBtn.onclick = async function() {
+          if (!confirm('Удалить это видео?')) return;
+          try {
+            var r = await fetch('/api/videos/' + videoData.id, { method: 'DELETE', headers: authHeaders() });
+            if (!r.ok) throw Error();
+            window.location.href = '/';
+          } catch(e) { alert('Ошибка при удалении'); }
+        };
+      }
+    });
   }
 
   async function loadComments() {
