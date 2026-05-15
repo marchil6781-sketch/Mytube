@@ -91,9 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     card.innerHTML = `
       <div class="video-thumbnail">
-        <video preload="metadata" muted playsinline>
-          <source src="/video/${video.filename}#t=0.1" type="${mimeType}">
-        </video>
+        <video preload="metadata" muted playsinline src="/video/${video.filename}"></video>
         <span class="video-duration">${formatDuration(video.duration)}</span>
       </div>
       <div class="video-info">

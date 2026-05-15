@@ -96,9 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mimeType = getFileType(video.filename);
     div.innerHTML = `
       <div class="rec-thumb">
-        <video preload="metadata" muted playsinline>
-          <source src="/video/${video.filename}#t=0.1" type="${mimeType}">
-        </video>
+        <video preload="metadata" muted playsinline src="/video/${video.filename}"></video>
         <span class="video-duration">${formatDuration(video.duration)}</span>
       </div>
       <div class="rec-info">
@@ -124,10 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         tagsEl.innerHTML = videoData.tags.map(t => `<span class="video-tag">#${t}</span>`).join('');
       }
 
-      const ext = videoData.filename.split('.').pop().toLowerCase();
-      const mimeType = getFileType(videoData.filename);
-
-      player.innerHTML = `<source src="/video/${videoData.filename}" type="${mimeType}">`;
+      player.src = `/video/${videoData.filename}`;
       player.load();
 
       downloadBtn.href = `/api/download/${videoData.id}`;
