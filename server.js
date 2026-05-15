@@ -40,15 +40,18 @@ const storage = multer.diskStorage({
   }
 });
 
+const VIDEO_MIMES = {
+  '.mp4': 'video/mp4', '.webm': 'video/webm', '.ogg': 'video/ogg',
+  '.avi': 'video/x-msvideo', '.mov': 'video/quicktime', '.mkv': 'video/x-matroska',
+  '.wmv': 'video/x-ms-wmv', '.flv': 'video/x-flv', '.m4v': 'video/mp4',
+  '.3gp': 'video/3gpp', '.ts': 'video/mp2t', '.mpeg': 'video/mpeg',
+  '.mpg': 'video/mpeg', '.mts': 'video/mp2t', '.m2ts': 'video/mp2t',
+  '.divx': 'video/x-msvideo', '.f4v': 'video/mp4'
+};
+
 const upload = multer({
   storage,
-  fileFilter: (req, file, cb) => {
-    const allowed = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.mkv'];
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (allowed.includes(ext)) cb(null, true);
-    else cb(new Error('Only video files are allowed'));
-  },
-  limits: { fileSize: 500 * 1024 * 1024 }
+  limits: { fileSize: 1000 * 1024 * 1024 }
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -227,6 +230,10 @@ app.get('/api/download/:id', (req, res) => {
 app.get('/video/:filename', (req, res) => {
   const filePath = path.join(UPLOADS_DIR, req.params.filename);
   if (!fs.existsSync(filePath)) return res.status(404).send('File not found');
+
+  const ext = path.extname(filePath).toLowerCase();
+  const contentType = VIDEO_MIMES[ext] || 'video/mp4';
+
   const stat = fs.statSync(filePath);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -241,13 +248,13 @@ app.get('/video/:filename', (req, res) => {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunksize,
-      'Content-Type': 'video/mp4',
+      'Content-Type': contentType,
     });
     file.pipe(res);
   } else {
     res.writeHead(200, {
       'Content-Length': fileSize,
-      'Content-Type': 'video/mp4',
+      'Content-Type': contentType,
     });
     fs.createReadStream(filePath).pipe(res);
   }

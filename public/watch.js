@@ -78,9 +78,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function getFileType(filename) {
+    const map = {
+      mp4:'video/mp4', webm:'video/webm', ogg:'video/ogg',
+      avi:'video/x-msvideo', mov:'video/quicktime', mkv:'video/x-matroska',
+      wmv:'video/x-ms-wmv', flv:'video/x-flv', m4v:'video/mp4',
+      3gp:'video/3gpp', mpeg:'video/mpeg', mpg:'video/mpeg',
+      ts:'video/mp2t', mts:'video/mp2t', m2ts:'video/mp2t'
+    };
     const ext = filename.split('.').pop().toLowerCase();
-    if (['mp4', 'webm', 'ogg'].includes(ext)) return 'video/mp4';
-    return `video/${ext}`;
+    return map[ext] || 'video/mp4';
   }
 
   function createRecCard(video) {
@@ -119,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       const ext = videoData.filename.split('.').pop().toLowerCase();
-      const mimeType = ['mp4', 'webm', 'ogg'].includes(ext) ? `video/${ext}` : 'video/mp4';
+      const mimeType = getFileType(videoData.filename);
 
       player.innerHTML = `<source src="/video/${videoData.filename}" type="${mimeType}">`;
       player.load();
