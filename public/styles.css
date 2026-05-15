@@ -917,6 +917,9 @@ body {
 .like-btn:hover { background: #3f3f3f; }
 .like-btn.liked { background: #3ea6ff; color: #000; }
 
+.like-icon { fill: currentColor; }
+.like-btn.liked .like-icon { fill: #000; }
+
 /* Profile page */
 .profile-page {
   max-width: 1000px;
