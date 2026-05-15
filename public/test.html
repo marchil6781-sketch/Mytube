@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Video Test</title></head>
+<body style="background:#000;color:#fff;font-family:sans-serif;padding:20px">
+  <h2>Video Test Page</h2>
+  <p>ID: 9a3f2216-2073-467b-92f8-d00a83155044</p>
+  <video controls width="800" style="max-width:100%">
+    <source src="/video/9a3f2216-2073-467b-92f8-d00a83155044.mp4" type="video/mp4">
+  </video>
+  <p><a href="/" style="color:#3ea6ff">← Back to MyTube</a></p>
+  <script>
+    var v = document.querySelector('video');
+    v.addEventListener('error', function(e) {
+      document.getElementById('info').textContent = 'Error: ' + v.error.message;
+    });
+    v.addEventListener('loadeddata', function() {
+      document.getElementById('info').textContent = 'Video loaded OK! Duration: ' + v.duration + 's';
+    });
+  </script>
+  <p id="info">Loading...</p>
+</body>
+</html>
